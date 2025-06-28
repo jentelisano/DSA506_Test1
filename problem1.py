@@ -118,6 +118,7 @@ with tab2:
     st.pyplot(fig_bar)
 
 # Domestic vs. International
+# Domestic vs. International
 with tab3:
     st.subheader("Domestic vs. International Flights")
 
@@ -129,22 +130,22 @@ with tab3:
 
     if flight_filter == "Domestic Only":
         domestic = jfk_routes[jfk_routes['is_domestic']].dropna()
-        state_counts = domestic['City'].value_counts().reset_index()
-        state_counts.columns = ['State/City', 'Count']
+        city_counts = domestic['City'].value_counts().head(10).reset_index()
+        city_counts.columns = ['City', 'Count']
 
         fig_domestic, ax = plt.subplots()
-        ax.pie(state_counts['Count'], labels=state_counts['State/City'], autopct='%1.1f%%', startangle=90)
-        ax.set_title("Domestic Flights by City (Proxy for State)")
+        ax.pie(city_counts['Count'], labels=city_counts['City'], autopct='%1.1f%%', startangle=90)
+        ax.set_title("Top 10 Domestic Cities by Route Count")
         st.pyplot(fig_domestic)
 
     elif flight_filter == "International Only":
         international = jfk_routes[~jfk_routes['is_domestic']].dropna()
-        country_counts = international['Country'].value_counts().reset_index()
+        country_counts = international['Country'].value_counts().head(10).reset_index()
         country_counts.columns = ['Country', 'Count']
 
         fig_international, ax = plt.subplots()
         ax.pie(country_counts['Count'], labels=country_counts['Country'], autopct='%1.1f%%', startangle=90)
-        ax.set_title("International Flights by Country")
+        ax.set_title("Top 10 International Countries by Route Count")
         st.pyplot(fig_international)
 
     else:
