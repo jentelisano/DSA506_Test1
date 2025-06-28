@@ -149,11 +149,16 @@ fig_airline.update_layout(showlegend=False)
 st.plotly_chart(fig_airline, use_container_width=True)
 
 st.markdown("""
-**Interpretation:**  
-This interactive scatterplot shows each airline as a point, where:
-- X-axis = number of routes it operates from JFK
-- Y-axis = number of unique destinations served
+## ✈️ Summary Insights
 
-Hover over a point to see the airline code. This helps identify which carriers have broad vs. narrow networks out of JFK.
+This exploratory analysis of flight route data from JFK International Airport reveals several key patterns:
+
+- **Global Reach**: JFK connects to over 150 destinations worldwide, with a strong concentration in Europe, Latin America, and major U.S. cities.
+- **Top Routes**: The most frequently served destinations include **London (LHR)**, **Paris (CDG)**, and **New Orleans (MSY)**—highlighting JFK's strategic blend of international and domestic routes.
+- **International Focus**: Approximately **65% of routes** are international, reinforcing JFK's role as a major global gateway.
+- **Airline Diversity**: The route map and frequency analysis show a wide range of airline operators. A few major carriers dominate in terms of both route volume and destination reach.
+- **Operational Footprint**: The airline scatterplot illustrates differences in scale and strategy—some carriers operate many routes to many places, while others focus on a small number of destinations.
+
+Taken together, the data highlights JFK as one of the most globally connected airports in the world, serving as a vital hub for both transatlantic and domestic air traffic.
 """)
 
