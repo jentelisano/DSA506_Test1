@@ -232,6 +232,7 @@ elif page == "Problem 2: University Dashboard":
         "🧠 Summary Insights"
     ])
 
+    # Admissions overview
     with tab1:
         st.subheader("Applications, Admissions, and Enrollments Over Time")
         df_grouped = df.groupby(['Year']).sum().reset_index()
@@ -242,28 +243,26 @@ elif page == "Problem 2: University Dashboard":
     # View retention trends by term
     with tab2:
         st.subheader("Retention Rate Trends")
-    
-        # Convert to category for safety
+
+        # Ensure 'Term' is a category
         df["Term"] = df["Term"].astype("category")
-    
-        # Filter by term
-        spring_df = df[df["Term"] == "Spring"]
-        fall_df = df[df["Term"] == "Fall"]
-    
-        # Create figure and add traces
-        fig = px.line(spring_df, x="Year", y="Retention Rate (%)", markers=True)
-        fig.add_scatter(x=fall_df["Year"], y=fall_df["Retention Rate (%)"],
-                        mode="lines+markers", name="Fall")
-    
-        # Final layout
+
+        # Bar chart grouped by Year and Term
+        fig = px.bar(
+            df,
+            x="Year",
+            y="Retention Rate (%)",
+            color="Term",
+            barmode="group",
+            title="Retention Rate Trends by Term"
+        )
+
         fig.update_layout(
-            title="Retention Rate Trends by Term",
-            xaxis_title="Year",
-            yaxis_title="Retention Rate (%)",
             xaxis=dict(dtick=1),
+            yaxis_title="Retention Rate (%)",
             legend_title="Term"
         )
-    
+
         st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
