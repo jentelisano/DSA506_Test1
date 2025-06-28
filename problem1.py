@@ -362,9 +362,62 @@ elif page == "Problem 2: University Dashboard":
 # =======================
 # Problem 3 placeholder
 # =======================
-elif page == "Problem 3 (coming soon)":
-    st.title("Problem 3")
-    st.info("Coming soon!")
+elif page == "Problem 3 - Visualization Quality":
+    st.title("Problem 3 - Visualization Quality")
+
+    # Load and clean data
+    df = sns.load_dataset("penguins").dropna()
+
+    # Tabs for bad vs good plot
+    tab_bad, tab_good = st.tabs(["❌ Worst Visualization", "✅ Improved Visualization"])
+
+    with tab_bad:
+        st.markdown("### ❌ Worst Visualization")
+        st.markdown("""
+        This scatter plot is a poor design choice:
+        - Uses a single color making it hard to distinguish categories
+        - Relies only on symbols to encode species
+        - No legend shown
+        - Overlapping points clutter the view
+        """)
+
+        fig_bad = px.scatter(
+            df,
+            x="bill_length_mm",
+            y="body_mass_g",
+            symbol="species",
+            color_discrete_sequence=["gray"],
+            title="❌ Bad Plot: Penguin Dimensions"
+        )
+        fig_bad.update_traces(marker=dict(size=12, line=dict(width=1, color='DarkSlateGrey')))
+        fig_bad.update_layout(showlegend=False)
+        st.plotly_chart(fig_bad, use_container_width=True)
+
+    with tab_good:
+        st.markdown("### ✅ Improved Visualization")
+        st.markdown("""
+        This plot improves readability and insight:
+        - Uses both color and shape to distinguish species clearly
+        - Adds a clean legend
+        - Adds informative axis labels and a title
+        - Uses transparency to reduce overplotting
+        """)
+
+        fig_good = px.scatter(
+            df,
+            x="bill_length_mm",
+            y="body_mass_g",
+            color="species",
+            symbol="species",
+            title="✅ Improved Plot: Penguin Body Mass vs. Bill Length",
+            labels={
+                "bill_length_mm": "Bill Length (mm)",
+                "body_mass_g": "Body Mass (g)",
+                "species": "Penguin Species"
+            }
+        )
+        fig_good.update_traces(marker=dict(size=10, opacity=0.7))
+        st.plotly_chart(fig_good, use_container_width=True)
 
 
 
