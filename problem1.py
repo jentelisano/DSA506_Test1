@@ -98,7 +98,7 @@ top_dests['Label'] = top_dests['City'] + ', ' + top_dests['Country'] + ' (' + to
 # Seaborn plot to matplotlib
 fig_bar, ax = plt.subplots(figsize=(10, 5))
 sns.barplot(data=top_dests, y='Label', x='Flight_Count', palette='Blues_d', ax=ax)
-ax.set_title('Top 5 Destination Airports from JFK (by Route Frequency)')
+ax.set_title('Top 10 Destination Airports from JFK (by Route Frequency)')
 ax.set_xlabel('Number of Unique Routes')
 ax.set_ylabel('Destination Airport')
 st.pyplot(fig_bar)
