@@ -223,7 +223,57 @@ elif page == "Problem 2: University Dashboard":
     # Load the data
     df = pd.read_csv("university_student_dashboard_data.csv")
 
-    # Display filters and dashboard tabs here (we’ll build this next)
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "📈 Admissions Overview",
+        "🔁 Retention Trends",
+        "😊 Student Satisfaction",
+        "🏛️ Enrollment by Department",
+        "📊 Spring vs. Fall Comparison",
+        "🧠 Summary Insights"
+    ])
+
+    with tab1:
+        st.subheader("Applications, Admissions, and Enrollments Over Time")
+        df_grouped = df.groupby(['Year']).sum().reset_index()
+        fig = px.line(df_grouped, x="Year", y=["Applications", "Admitted", "Enrolled"],
+                      markers=True, title="Trends Over Time")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with tab2:
+        st.subheader("Retention Rate Trends")
+        fig = px.line(df, x="Year", y="Retention Rate (%)", color="Term",
+                      title="Retention Rate by Term")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with tab3:
+        st.subheader("Student Satisfaction Trends")
+        fig = px.line(df, x="Year", y="Student Satisfaction (%)", color="Term",
+                      title="Satisfaction Score by Term")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with tab4:
+        st.subheader("Enrollment Breakdown by Department")
+        long_df = df.melt(id_vars=["Year", "Term"], value_vars=["Engineering", "Business", "Arts", "Science"],
+                         var_name="Department", value_name="Enrollment")
+        fig = px.bar(long_df, x="Year", y="Enrollment", color="Department", barmode="group",
+                     facet_col="Term", title="Department Enrollment per Term")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with tab5:
+        st.subheader("Compare Spring vs. Fall")
+        metric = st.selectbox("Select Metric", ["Applications", "Admitted", "Enrolled", "Retention Rate (%)", "Student Satisfaction (%)"])
+        fig = px.line(df, x="Year", y=metric, color="Term", markers=True, title=f"{metric} by Term")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with tab6:
+        st.subheader("Key Insights")
+        st.markdown("""
+        - 📈 **Applications, admissions, and enrollments** have increased steadily over the years.
+        - 🔁 **Retention rates** show improvement, particularly in Fall terms.
+        - 😊 **Student satisfaction** remains higher in Fall compared to Spring.
+        - 🏛️ **Engineering and Business** departments have the largest enrollments.
+        - 📊 **Spring vs. Fall** trends show stronger metrics overall in Fall.
+        """)
 
 # =======================
 # Problem 3 placeholder
