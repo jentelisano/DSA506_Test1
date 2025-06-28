@@ -243,11 +243,13 @@ elif page == "Problem 2: University Dashboard":
     # View retention trends by term
     with tab2:
         st.subheader("Retention Rate Trends")
-
-        # Ensure 'Term' is a category
+    
         df["Term"] = df["Term"].astype("category")
-
-        # Bar chart grouped by Year and Term
+    
+        # Calculate yearly average retention rate for line overlay
+        avg_retention = df.groupby("Year")["Retention Rate (%)"].mean().reset_index()
+    
+        # Bar chart grouped by Term
         fig = px.bar(
             df,
             x="Year",
@@ -256,13 +258,22 @@ elif page == "Problem 2: University Dashboard":
             barmode="group",
             title="Retention Rate Trends by Term"
         )
-
+    
+        # Add line for average
+        fig.add_scatter(
+            x=avg_retention["Year"],
+            y=avg_retention["Retention Rate (%)"],
+            mode="lines+markers",
+            name="Yearly Avg Retention",
+            line=dict(color="white", dash="dot")
+        )
+    
         fig.update_layout(
             xaxis=dict(dtick=1),
             yaxis_title="Retention Rate (%)",
             legend_title="Term"
         )
-
+    
         st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
