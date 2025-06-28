@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
 
 # Mapping the routes
 st.title("Problem 1 - JFK Flight Route Explorer")
@@ -119,29 +120,38 @@ ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%
 st.pyplot(fig_pie)
 
 # Top airlines
-st.subheader("Top Airlines Operating from JFK (by Route Count)")
-
-# Aggregate data
+# Prepare data
 airline_stats = jfk_routes.groupby('Airline').agg(
     route_count=('Dst_IATA', 'count'),
     unique_dests=('Dst_IATA', 'nunique')
 ).reset_index()
 
-# Plot
-fig_air, ax = plt.subplots(figsize=(8, 5))
-sns.scatterplot(data=airline_stats, x='route_count', y='unique_dests', ax=ax)
-ax.set_title("Airline Route Frequency vs. Destination Reach from JFK")
-ax.set_xlabel("Total Number of Routes from JFK")
-ax.set_ylabel("Unique Destinations Served")
-st.pyplot(fig_air)
+# Interactive scatterplot with labels
+fig_airline = px.scatter(
+    airline_stats,
+    x='route_count',
+    y='unique_dests',
+    text='Airline',  # shows airline code on hover
+    labels={
+        'route_count': 'Total Routes from JFK',
+        'unique_dests': 'Unique Destinations Served'
+    },
+    title='Airline Route Frequency vs. Destination Reach from JFK',
+    width=800,
+    height=500
+)
+
+fig_airline.update_traces(marker=dict(size=8, color='royalblue'), textposition='top center')
+fig_airline.update_layout(showlegend=False)
+
+st.plotly_chart(fig_airline, use_container_width=True)
 
 st.markdown("""
 **Interpretation:**  
-This scatterplot shows how airlines operating out of JFK compare in terms of route volume and destination diversity.  
-- Airlines in the top-right serve many destinations with many routes — they’re likely major carriers.
-- Airlines in the lower-left operate fewer routes to fewer destinations — smaller or specialized operators.
+This interactive scatterplot shows each airline as a point, where:
+- X-axis = number of routes it operates from JFK
+- Y-axis = number of unique destinations served
 
-This offers a clearer sense of operational scale and strategic breadth per airline.
+Hover over a point to see the airline code. This helps identify which carriers have broad vs. narrow networks out of JFK.
 """)
-
 
