@@ -121,41 +121,41 @@ with tab2:
 with tab3:
     st.subheader("Domestic vs. International Flights")
 
-    # Flag domestic/international
+    # Add domestic flag
     jfk_routes['is_domestic'] = jfk_routes['Country'] == 'United States'
 
-    # Dropdown filter
+    # Selection radio
     flight_filter = st.radio("Select view:", options=["All", "Domestic Only", "International Only"])
 
     if flight_filter == "Domestic Only":
         domestic = jfk_routes[jfk_routes['is_domestic']].dropna()
         state_counts = domestic['City'].value_counts().reset_index()
-        state_counts.columns = ['State/City', 'count']
+        state_counts.columns = ['State/City', 'Count']
 
         fig_domestic, ax = plt.subplots()
-        ax.pie(state_counts['count'], labels=state_counts['State/City'], autopct='%1.1f%%', startangle=90)
-        ax.set_title("Domestic Flights by State/City")
+        ax.pie(state_counts['Count'], labels=state_counts['State/City'], autopct='%1.1f%%', startangle=90)
+        ax.set_title("Domestic Flights by City (Proxy for State)")
         st.pyplot(fig_domestic)
 
     elif flight_filter == "International Only":
         international = jfk_routes[~jfk_routes['is_domestic']].dropna()
         country_counts = international['Country'].value_counts().reset_index()
-        country_counts.columns = ['Country', 'count']
+        country_counts.columns = ['Country', 'Count']
 
         fig_international, ax = plt.subplots()
-        ax.pie(country_counts['count'], labels=country_counts['Country'], autopct='%1.1f%%', startangle=90)
+        ax.pie(country_counts['Count'], labels=country_counts['Country'], autopct='%1.1f%%', startangle=90)
         ax.set_title("International Flights by Country")
         st.pyplot(fig_international)
 
     else:
-        # Original view: domestic vs international % breakdown
-        pie_data = jfk_routes['is_domestic'].value_counts().reset_index()
-        pie_data.columns = ['is_domestic', 'count']
-        pie_data['label'] = pie_data['is_domestic'].map({True: 'Domestic', False: 'International'})
+        # Default view: Domestic vs. International %
+        dom_int_counts = jfk_routes['is_domestic'].value_counts().reset_index()
+        dom_int_counts.columns = ['is_domestic', 'count']
+        dom_int_counts['label'] = dom_int_counts['is_domestic'].map({True: 'Domestic', False: 'International'})
 
         fig_all, ax = plt.subplots()
-        ax.pie(pie_data['count'], labels=pie_data['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'salmon'])
-        ax.set_title("Flight Breakdown: Domestic vs. International")
+        ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'salmon'])
+        ax.set_title("All Flights: Domestic vs. International")
         st.pyplot(fig_all)
 
     # Pie chart
