@@ -341,13 +341,14 @@ elif page == "Problem 2: University Dashboard":
         else:
             st.warning("One or more department enrollment columns not found in dataset.")
 
-
+    # KPIs by term
     with tab5:
         st.subheader("Compare Spring vs. Fall")
         metric = st.selectbox("Select Metric", ["Applications", "Admitted", "Enrolled", "Retention Rate (%)", "Student Satisfaction (%)"])
         fig = px.line(df, x="Year", y=metric, color="Term", markers=True, title=f"{metric} by Term")
         st.plotly_chart(fig, use_container_width=True)
 
+    # Summary
     with tab6:
         st.subheader("Key Insights")
         st.markdown("""
