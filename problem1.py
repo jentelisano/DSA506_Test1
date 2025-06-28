@@ -135,44 +135,45 @@ with tab3:
 with tab4:
     st.subheader("Airline Route Frequency vs. Destination Reach from JFK")
 
-# Prepare data
-airline_stats = jfk_routes.groupby('Airline').agg(
-    route_count=('Dst_IATA', 'count'),
-    unique_dests=('Dst_IATA', 'nunique')
-).reset_index()
+    # Prepare data
+    airline_stats = jfk_routes.groupby('Airline').agg(
+        route_count=('Dst_IATA', 'count'),
+        unique_dests=('Dst_IATA', 'nunique')
+    ).reset_index()
+    
+    # Interactive scatterplot with labels
+    fig_airline = px.scatter(
+        airline_stats,
+        x='route_count',
+        y='unique_dests',
+        text='Airline',  # shows airline code on hover
+        labels={
+            'route_count': 'Total Routes from JFK',
+            'unique_dests': 'Unique Destinations Served'
+        },
+        title='Airline Route Frequency vs. Destination Reach from JFK',
+        width=800,
+        height=500
+    )
+    
+    fig_airline.update_traces(marker=dict(size=8, color='royalblue'), textposition='top center')
+    fig_airline.update_layout(showlegend=False)
+    
+    st.plotly_chart(fig_airline, use_container_width=True)
+    
+    st.markdown("""
+    ## ✈️ Summary Insights
+    
+    This exploratory analysis of flight route data from JFK International Airport reveals several key patterns:
+    
+    - **Global Reach**: JFK connects to over 150 destinations worldwide, with a strong concentration in Europe, Latin America, and major U.S. cities.
+    - **Top Routes**: The most frequently served destinations include **London (LHR)**, **Paris (CDG)**, and **New Orleans (MSY)**—highlighting JFK's strategic blend of international and domestic routes.
+    - **International Focus**: Approximately **65% of routes** are international, reinforcing JFK's role as a major global gateway.
+    - **Airline Diversity**: The route map and frequency analysis show a wide range of airline operators. A few major carriers dominate in terms of both route volume and destination reach.
+    - **Operational Footprint**: The airline scatterplot illustrates differences in scale and strategy—some carriers operate many routes to many places, while others focus on a small number of destinations.
+    
+    Taken together, the data highlights JFK as one of the most globally connected airports in the world, serving as a vital hub for both transatlantic and domestic air traffic.
+    """)
 
-# Interactive scatterplot with labels
-fig_airline = px.scatter(
-    airline_stats,
-    x='route_count',
-    y='unique_dests',
-    text='Airline',  # shows airline code on hover
-    labels={
-        'route_count': 'Total Routes from JFK',
-        'unique_dests': 'Unique Destinations Served'
-    },
-    title='Airline Route Frequency vs. Destination Reach from JFK',
-    width=800,
-    height=500
-)
-
-fig_airline.update_traces(marker=dict(size=8, color='royalblue'), textposition='top center')
-fig_airline.update_layout(showlegend=False)
-
-st.plotly_chart(fig_airline, use_container_width=True)
-
-st.markdown("""
-## ✈️ Summary Insights
-
-This exploratory analysis of flight route data from JFK International Airport reveals several key patterns:
-
-- **Global Reach**: JFK connects to over 150 destinations worldwide, with a strong concentration in Europe, Latin America, and major U.S. cities.
-- **Top Routes**: The most frequently served destinations include **London (LHR)**, **Paris (CDG)**, and **New Orleans (MSY)**—highlighting JFK's strategic blend of international and domestic routes.
-- **International Focus**: Approximately **65% of routes** are international, reinforcing JFK's role as a major global gateway.
-- **Airline Diversity**: The route map and frequency analysis show a wide range of airline operators. A few major carriers dominate in terms of both route volume and destination reach.
-- **Operational Footprint**: The airline scatterplot illustrates differences in scale and strategy—some carriers operate many routes to many places, while others focus on a small number of destinations.
-
-Taken together, the data highlights JFK as one of the most globally connected airports in the world, serving as a vital hub for both transatlantic and domestic air traffic.
-""")
 
 
