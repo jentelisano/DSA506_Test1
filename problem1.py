@@ -301,17 +301,46 @@ elif page == "Problem 2: University Dashboard":
     with tab4:
         st.subheader("Enrollment Breakdown by Department")
     
-        department_cols = ["Engineering", "Business", "Arts", "Science"]
-        valid_depts = [col for col in department_cols if col in df.columns]
+        # Define department enrollment columns explicitly
+        dept_cols = [
+            "Engineering Enrolled",
+            "Business Enrolled",
+            "Arts Enrolled",
+            "Science Enrolled"
+        ]
     
-        if valid_depts:
-            long_df = df.melt(id_vars=["Year", "Term"], value_vars=valid_depts,
-                              var_name="Department", value_name="Enrollment")
-            fig = px.bar(long_df, x="Year", y="Enrollment", color="Department", barmode="group",
-                         facet_col="Term", title="Department Enrollment per Term")
+        if all(col in df.columns for col in dept_cols):
+            df_dept = df[["Year"] + dept_cols]
+    
+            # Melt the data for plotting
+            df_dept_long = df_dept.melt(
+                id_vars="Year",
+                var_name="Department",
+                value_name="Enrollment"
+            )
+    
+            # Clean department names (remove " Enrolled" suffix)
+            df_dept_long["Department"] = df_dept_long["Department"].str.replace(" Enrolled", "")
+    
+            # Create grouped bar chart
+            fig = px.bar(
+                df_dept_long,
+                x="Year",
+                y="Enrollment",
+                color="Department",
+                barmode="group",
+                title="Department Enrollment Over Time"
+            )
+    
+            fig.update_layout(
+                xaxis=dict(dtick=1),
+                yaxis_title="Enrollment Count"
+            )
+    
             st.plotly_chart(fig, use_container_width=True)
         else:
-            st.warning("Department enrollment columns not found in dataset.")
+            st.warning("One or more department enrollment columns not found in dataset.")
+
 
     with tab5:
         st.subheader("Compare Spring vs. Fall")
