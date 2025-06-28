@@ -7,7 +7,19 @@ import plotly.express as px
 
 # Mapping the routes
 st.title("Problem 1 - JFK Flight Route Explorer")
-st.subheader("1. Global Map of Direct Routes from JFK")
+
+# Dashboard Tabs
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "🌍 Route Map",
+    "🏆 Top Destinations",
+    "🥧 Domestic vs. International",
+    "🛫 Airline Analysis",
+    "🧠 Summary Insights"
+])
+
+with tab1:
+    st.subheader("Global Map of Direct Routes from JFK")
+    st.plotly_chart(fig_map, use_container_width=True)
 
 # Load data
 routes_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
@@ -81,7 +93,9 @@ fig_map.update_layout(
 st.plotly_chart(fig_map, use_container_width=True)
 
 # Top destinations
-st.subheader("2. Top 10 Destination Airports from JFK")
+with tab2:
+    st.subheader("Top 10 Destination Airports from JFK")
+    st.pyplot(fig_bar)
 
 # Preprocess top destinations
 top_dests = jfk_routes['Dst_IATA'].value_counts().head(10).reset_index()
@@ -104,7 +118,9 @@ ax.set_ylabel('Destination Airport')
 st.pyplot(fig_bar)
 
 # Domestic vs. International
-st.subheader("3. Domestic vs. International Flights from JFK")
+with tab3:
+    st.subheader("Domestic vs. International Flights from JFK")
+    st.pyplot(fig_pie)
 
 # Add the domestic filter
 jfk_routes['is_domestic'] = jfk_routes['Country'] == 'United States'
@@ -120,8 +136,9 @@ ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%
 st.pyplot(fig_pie)
 
 # Top airlines
-st.subheader("4. Top Airlines")
-
+with tab4:
+    st.subheader("Airline Route Frequency vs. Destination Reach from JFK")
+    st.plotly_chart(fig_airline, use_container_width=True)
 # Prepare data
 airline_stats = jfk_routes.groupby('Airline').agg(
     route_count=('Dst_IATA', 'count'),
