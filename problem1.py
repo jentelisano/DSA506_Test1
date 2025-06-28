@@ -240,7 +240,7 @@ elif page == "Problem 2: University Dashboard":
                       markers=True, title="Trends Over Time")
         st.plotly_chart(fig, use_container_width=True)
 
-    # View retention trends by term
+    # View retention trends by year
     with tab2:
         st.subheader("Retention Rate Trends")
     
@@ -256,7 +256,7 @@ elif page == "Problem 2: University Dashboard":
             y="Retention Rate (%)",
             color="Term",
             barmode="group",
-            title="Retention Rate Trends by Term"
+            title="Retention Rate Trends by Year"
         )
     
         # Add line for average
@@ -277,9 +277,27 @@ elif page == "Problem 2: University Dashboard":
         st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
-        st.subheader("Student Satisfaction Trends")
-        fig = px.line(df, x="Year", y="Student Satisfaction (%)", color="Term",
-                      title="Satisfaction Score by Term")
+        st.subheader("Student Satisfaction Over Time")
+    
+        # Convert to numeric category
+        df["Year"] = df["Year"].astype(int)
+    
+        # Plot scatter for satisfaction
+        fig = px.scatter(
+            df,
+            x="Year",
+            y="Student Satisfaction (%)",
+            title="Student Satisfaction Trends",
+            trendline="ols",
+            labels={"Student Satisfaction (%)": "Satisfaction (%)"}
+        )
+    
+        fig.update_traces(marker=dict(size=10, color="lightgreen", line=dict(width=1, color="darkgreen")))
+        fig.update_layout(
+            xaxis=dict(dtick=1),
+            yaxis_title="Satisfaction (%)"
+        )
+    
         st.plotly_chart(fig, use_container_width=True)
 
     with tab4:
