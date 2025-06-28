@@ -10,7 +10,7 @@ st.set_page_config(page_title="DSA506 Dashboard", layout="wide")
 
 # Sidebar navigation
 st.sidebar.title("📊 DSA506 Test 1 Dashboards")
-page = st.sidebar.radio("Select a problem:", ["Problem 1: JFK Flights", "Problem 2: University Dashboard", "Problem 3 Visualization Quality"])
+page = st.sidebar.radio("Select a problem:", ["Problem 1: JFK Flights", "Problem 2: University Dashboard", "Problem 3: Visualization Quality"])
 
 # =======================
 # Problem 1
@@ -362,7 +362,7 @@ elif page == "Problem 2: University Dashboard":
 # =======================
 # Problem 3 placeholder
 # =======================
-elif page == "Problem 3 - Visualization Quality":
+elif page == "Problem 3: Visualization Quality":
     st.title("Problem 3 - Visualization Quality")
 
     # Load and clean data
