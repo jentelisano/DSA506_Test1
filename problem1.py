@@ -9,7 +9,7 @@ import plotly.express as px
 st.set_page_config(page_title="DSA506 Dashboard", layout="wide")
 
 # Sidebar navigation
-st.sidebar.title("📊 DSA506 Dashboards")
+st.sidebar.title("📊 DSA506 Test 1 Dashboards")
 page = st.sidebar.radio("Select a problem:", ["Problem 1: JFK Flights", "Problem 2: University Dashboard", "Problem 3 (coming soon)"])
 
 # =======================
