@@ -77,3 +77,25 @@ fig_map.update_layout(
 )
 
 st.plotly_chart(fig_map, use_container_width=True)
+
+st.subheader("2. Top 10 Destination Airports from JFK")
+
+# Preprocess top destinations
+top_dests = jfk_routes['Dst_IATA'].value_counts().head(10).reset_index()
+top_dests.columns = ['Dst_IATA', 'Flight_Count']
+
+# Merge to get city/country
+top_dests = top_dests.merge(
+    airports[['IATA', 'City', 'Country']],
+    left_on='Dst_IATA', right_on='IATA',
+    how='left'
+)
+top_dests['Label'] = top_dests['City'] + ', ' + top_dests['Country'] + ' (' + top_dests['Dst_IATA'] + ')'
+
+# Seaborn plot to matplotlib
+fig_bar, ax = plt.subplots(figsize=(10, 5))
+sns.barplot(data=top_dests, y='Label', x='Flight_Count', palette='Blues_d', ax=ax)
+ax.set_title('Top 5 Destination Airports from JFK (by Route Frequency)')
+ax.set_xlabel('Number of Unique Routes')
+ax.set_ylabel('Destination Airport')
+st.pyplot(fig_bar)
