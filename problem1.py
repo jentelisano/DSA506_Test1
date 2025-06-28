@@ -127,22 +127,40 @@ with tab3:
     # Dropdown filter
     flight_filter = st.radio("Select view:", options=["All", "Domestic Only", "International Only"])
 
-    # Apply filter
     if flight_filter == "Domestic Only":
-        filtered = jfk_routes[jfk_routes['is_domestic']]
+        domestic = jfk_routes[jfk_routes['is_domestic']].dropna()
+        state_counts = domestic['City'].value_counts().reset_index()
+        state_counts.columns = ['State/City', 'count']
+
+        fig_domestic, ax = plt.subplots()
+        ax.pie(state_counts['count'], labels=state_counts['State/City'], autopct='%1.1f%%', startangle=90)
+        ax.set_title("Domestic Flights by State/City")
+        st.pyplot(fig_domestic)
+
     elif flight_filter == "International Only":
-        filtered = jfk_routes[~jfk_routes['is_domestic']]
+        international = jfk_routes[~jfk_routes['is_domestic']].dropna()
+        country_counts = international['Country'].value_counts().reset_index()
+        country_counts.columns = ['Country', 'count']
+
+        fig_international, ax = plt.subplots()
+        ax.pie(country_counts['count'], labels=country_counts['Country'], autopct='%1.1f%%', startangle=90)
+        ax.set_title("International Flights by Country")
+        st.pyplot(fig_international)
+
     else:
-        filtered = jfk_routes
+        # Original view: domestic vs international % breakdown
+        pie_data = jfk_routes['is_domestic'].value_counts().reset_index()
+        pie_data.columns = ['is_domestic', 'count']
+        pie_data['label'] = pie_data['is_domestic'].map({True: 'Domestic', False: 'International'})
 
-    # Count flight types
-    pie_data = filtered['is_domestic'].value_counts().reset_index()
-    pie_data.columns = ['is_domestic', 'count']
-    pie_data['label'] = pie_data['is_domestic'].map({True: 'Domestic', False: 'International'})
+        fig_all, ax = plt.subplots()
+        ax.pie(pie_data['count'], labels=pie_data['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'salmon'])
+        ax.set_title("Flight Breakdown: Domestic vs. International")
+        st.pyplot(fig_all)
 
+    # Pie chart
     fig_pie, ax = plt.subplots()
-    ax.pie(pie_data['count'], labels=pie_data['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'salmon'])
-    ax.set_title(f"Flight Breakdown: {flight_filter}")
+    ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
     st.pyplot(fig_pie)
 
 # Top airlines
