@@ -126,3 +126,15 @@ ax.set_xlabel("Number of Routes")
 ax.set_ylabel("Airline Code")
 st.pyplot(fig_airline)
 
+st.markdown("""
+## ✈️ Summary Insights
+
+- JFK offers direct flights to over 150 destinations across the globe.
+- Top destinations include **London (LHR)** and **Paris (CDG)**.
+- **~70%** of routes from JFK are international, reinforcing its role as a global gateway.
+- Airlines with the most route presence from JFK include both U.S. and foreign carriers.
+
+The analysis uses OpenFlights data as a proxy for real-world operations and offers valuable insights into route diversity, airport connectivity, and strategic airline presence.
+""")
+
+
