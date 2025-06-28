@@ -239,10 +239,31 @@ elif page == "Problem 2: University Dashboard":
                       markers=True, title="Trends Over Time")
         st.plotly_chart(fig, use_container_width=True)
 
+    # View retention trends by term
     with tab2:
         st.subheader("Retention Rate Trends")
-        fig = px.line(df, x="Year", y="Retention Rate (%)", color="Term",
-                      title="Retention Rate by Term")
+    
+        # Convert to category for safety
+        df["Term"] = df["Term"].astype("category")
+    
+        # Filter by term
+        spring_df = df[df["Term"] == "Spring"]
+        fall_df = df[df["Term"] == "Fall"]
+    
+        # Create figure and add traces
+        fig = px.line(spring_df, x="Year", y="Retention Rate (%)", markers=True)
+        fig.add_scatter(x=fall_df["Year"], y=fall_df["Retention Rate (%)"],
+                        mode="lines+markers", name="Fall")
+    
+        # Final layout
+        fig.update_layout(
+            title="Retention Rate Trends by Term",
+            xaxis_title="Year",
+            yaxis_title="Retention Rate (%)",
+            xaxis=dict(dtick=1),
+            legend_title="Term"
+        )
+    
         st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
