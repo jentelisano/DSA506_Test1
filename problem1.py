@@ -5,6 +5,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
+# Page config
+st.set_page_config(page_title="DSA506 Dashboard", layout="wide")
+
+# Sidebar navigation
+st.sidebar.title("📊 DSA506 Dashboards")
+page = st.sidebar.radio("Select a problem:", ["Problem 1: JFK Flights", "Problem 2: University Dashboard", "Problem 3 (coming soon)"])
+
+# =======================
+# Problem 1
+# =======================
+if page == "Problem 1: JFK Flights":
 # Problem 1
 st.title("Problem 1 - JFK Flight Route Explorer")
 
@@ -118,7 +129,6 @@ with tab2:
     st.pyplot(fig_bar)
 
 # Domestic vs. International
-# Domestic vs. International
 with tab3:
     st.subheader("Domestic vs. International Flights")
 
@@ -203,6 +213,26 @@ with tab5:
     
     Taken together, the data highlights JFK as one of the most globally connected airports in the world, serving as a vital hub for both transatlantic and domestic air traffic.
     """)
+
+# =======================
+# Problem 2 
+# =======================
+elif page == "Problem 2: University Dashboard":
+    st.title("Problem 2 - University Admissions Dashboard")
+
+    # Load the data
+    df = pd.read_csv("university_student_dashboard_data.csv")
+
+    # Display filters and dashboard tabs here (we’ll build this next)
+
+# =======================
+# Problem 3 placeholder
+# =======================
+elif page == "Problem 3 (coming soon)":
+    st.title("Problem 3")
+    st.info("Coming soon!")
+
+
 
 
 
