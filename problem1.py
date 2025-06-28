@@ -255,17 +255,16 @@ elif page == "Problem 2: University Dashboard":
         st.subheader("Enrollment Breakdown by Department")
     
         department_cols = ["Engineering", "Business", "Arts", "Science"]
-        available_cols = [col for col in department_cols if col in df.columns]
+        valid_depts = [col for col in department_cols if col in df.columns]
     
-        if available_cols:
-            long_df = df.melt(id_vars=["Year", "Term"], value_vars=available_cols,
-                             var_name="Department", value_name="Enrollment")
-    
+        if valid_depts:
+            long_df = df.melt(id_vars=["Year", "Term"], value_vars=valid_depts,
+                              var_name="Department", value_name="Enrollment")
             fig = px.bar(long_df, x="Year", y="Enrollment", color="Department", barmode="group",
                          facet_col="Term", title="Department Enrollment per Term")
             st.plotly_chart(fig, use_container_width=True)
         else:
-            st.warning("Department columns not found in the dataset.")
+            st.warning("Department enrollment columns not found in dataset.")
 
     with tab5:
         st.subheader("Compare Spring vs. Fall")
