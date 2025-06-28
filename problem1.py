@@ -120,6 +120,8 @@ ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%
 st.pyplot(fig_pie)
 
 # Top airlines
+st.subheader("4. Top Airlines")
+
 # Prepare data
 airline_stats = jfk_routes.groupby('Airline').agg(
     route_count=('Dst_IATA', 'count'),
