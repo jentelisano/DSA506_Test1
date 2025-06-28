@@ -352,10 +352,10 @@ elif page == "Problem 2: University Dashboard":
         st.subheader("Key Insights")
         st.markdown("""
         - 📈 **Applications, admissions, and enrollments** have increased steadily over the years.
-        - 🔁 **Retention rates** show improvement, particularly in Fall terms.
-        - 😊 **Student satisfaction** remains higher in Fall compared to Spring.
-        - 🏛️ **Engineering and Business** departments have the largest enrollments.
-        - 📊 **Spring vs. Fall** trends show stronger metrics overall in Fall.
+        - 🔁 **Retention rates** show improvement. The lowest retention rate was 85%, and 2024 saw highest retention at 90%.
+        - 😊 **Student satisfaction** has dramtically increased from 78% in 2015 to 88% in 2024.
+        - 🏛️ **Engineering and Business** departments have the largest enrollments. Enrollment for all departments besides Science is growing. Science is experiencing a general decline in enrollment since 2015.
+        - 📊 **Spring vs. Fall** trends are aligned exactly, disaplying that there isn't a difference in KPIs between terms.
         """)
 
 # =======================
