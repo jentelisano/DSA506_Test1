@@ -387,7 +387,7 @@ elif page == "Problem 3: Visualization Quality":
             y="body_mass_g",
             symbol="species",
             color_discrete_sequence=["gray"],
-            title="❌ Bad Plot: Penguin Dimensions"
+            title="Bad Plot: Penguin Dimensions"
         )
         fig_bad.update_traces(marker=dict(size=12, line=dict(width=1, color='DarkSlateGrey')))
         fig_bad.update_layout(showlegend=False)
@@ -409,7 +409,7 @@ elif page == "Problem 3: Visualization Quality":
             y="body_mass_g",
             color="species",
             symbol="species",
-            title="✅ Improved Plot: Penguin Body Mass vs. Bill Length",
+            title="Improved Plot: Penguin Body Mass vs. Bill Length",
             labels={
                 "bill_length_mm": "Bill Length (mm)",
                 "body_mass_g": "Body Mass (g)",
