@@ -201,7 +201,7 @@ if page == "Problem 1: JFK Flights":
     
     with tab5:
         st.markdown("""
-        ## ✈️ Summary Insights
+        ## Key Insights
         
         This exploratory analysis of flight route data from JFK International Airport reveals several key patterns:
         
