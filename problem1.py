@@ -277,24 +277,23 @@ elif page == "Problem 2: University Dashboard":
         st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
-        st.subheader("Student Satisfaction Over Time")
+        st.subheader("Student Satisfaction Trends")
     
-        # Convert to numeric category
-        df["Year"] = df["Year"].astype(int)
+        # Convert Year to string if necessary to avoid gaps in lines
+        df["Year"] = df["Year"].astype(str)
     
-        # Plot scatter for satisfaction
-        fig = px.scatter(
+        # Plot a simple line chart with dots
+        fig = px.line(
             df,
             x="Year",
             y="Student Satisfaction (%)",
             title="Student Satisfaction Trends",
-            labels={"Student Satisfaction (%)": "Satisfaction (%)"}
+            markers=True
         )
     
-        fig.update_traces(marker=dict(size=10, color="lightgreen", line=dict(width=1, color="darkgreen")))
         fig.update_layout(
-            xaxis=dict(dtick=1),
-            yaxis_title="Satisfaction (%)"
+            yaxis_title="Satisfaction (%)",
+            xaxis_title="Year"
         )
     
         st.plotly_chart(fig, use_container_width=True)
