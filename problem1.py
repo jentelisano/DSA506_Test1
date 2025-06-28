@@ -158,11 +158,6 @@ with tab3:
         ax.set_title("All Flights: Domestic vs. International")
         st.pyplot(fig_all)
 
-    # Pie chart
-    fig_pie, ax = plt.subplots()
-    ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
-    st.pyplot(fig_pie)
-
 # Top airlines
 with tab4:
     st.subheader("Airline Route Frequency vs. Destination Reach from JFK")
