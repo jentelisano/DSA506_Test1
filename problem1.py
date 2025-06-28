@@ -7,7 +7,7 @@ import seaborn as sns
 st.title("JFK Flight Route Explorer")
 st.subheader("1. Global Map of Direct Routes from JFK")
 
-# Load data from source
+# Load data
 routes_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
 airports_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat"
 
@@ -114,3 +114,15 @@ dom_int_counts['label'] = dom_int_counts['is_domestic'].map({True: 'Domestic', F
 fig_pie, ax = plt.subplots()
 ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
 st.pyplot(fig_pie)
+
+st.subheader("4. Top Airlines Operating from JFK (by Route Count)")
+
+top_airlines = jfk_routes['Airline'].value_counts().head(10).reset_index()
+top_airlines.columns = ['Airline_Code', 'Route_Count']
+
+fig_airline, ax = plt.subplots(figsize=(10, 4))
+sns.barplot(data=top_airlines, x='Route_Count', y='Airline_Code', palette='Purples_d', ax=ax)
+ax.set_xlabel("Number of Routes")
+ax.set_ylabel("Airline Code")
+st.pyplot(fig_airline)
+
