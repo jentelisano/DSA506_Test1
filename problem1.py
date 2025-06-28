@@ -158,7 +158,8 @@ with tab4:
     
     fig_airline.update_traces(marker=dict(size=8, color='royalblue'), textposition='top center')
     fig_airline.update_layout(showlegend=False)
-    
+
+with tab5:
     st.plotly_chart(fig_airline, use_container_width=True)
     
     st.markdown("""
