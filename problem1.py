@@ -99,3 +99,19 @@ ax.set_title('Top 5 Destination Airports from JFK (by Route Frequency)')
 ax.set_xlabel('Number of Unique Routes')
 ax.set_ylabel('Destination Airport')
 st.pyplot(fig_bar)
+
+st.subheader("3. Domestic vs. International Flights from JFK")
+
+# Add the domestic filter
+jfk_routes['is_domestic'] = jfk_routes['Country'] == 'United States'
+
+# Count and plot as pie chart
+dom_int_counts = jfk_routes['is_domestic'].value_counts().reset_index()
+dom_int_counts.columns = ['is_domestic', 'count']
+dom_int_counts['label'] = dom_int_counts['is_domestic'].map({True: 'Domestic', False: 'International'})
+
+# Pie chart
+fig_pie, ax = plt.subplots()
+ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
+ax.set_title('3. Domestic vs. International Flights from JFK')
+st.pyplot(fig_pie)
