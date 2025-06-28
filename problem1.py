@@ -8,19 +8,6 @@ import plotly.express as px
 # Mapping the routes
 st.title("Problem 1 - JFK Flight Route Explorer")
 
-# Dashboard Tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "🌍 Route Map",
-    "🏆 Top Destinations",
-    "🥧 Domestic vs. International",
-    "🛫 Airline Analysis",
-    "🧠 Summary Insights"
-])
-
-with tab1:
-    st.subheader("Global Map of Direct Routes from JFK")
-    st.plotly_chart(fig_map, use_container_width=True)
-
 # Load data
 routes_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
 airports_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat"
@@ -45,6 +32,19 @@ jfk_routes = jfk_routes.merge(
     left_on='Dst_IATA', right_on='IATA',
     how='left'
 )
+
+# Dashboard Tabs
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "🌍 Route Map",
+    "🏆 Top Destinations",
+    "🥧 Domestic vs. International",
+    "🛫 Airline Analysis",
+    "🧠 Summary Insights"
+])
+
+with tab1:
+    st.subheader("Global Map of Direct Routes from JFK")
+    st.plotly_chart(fig_map, use_container_width=True)
 
 # Define JFK coordinates
 jfk_lat = 40.6413
