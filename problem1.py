@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Mapping the routes
 st.title("JFK Flight Route Explorer")
 st.subheader("1. Global Map of Direct Routes from JFK")
 
@@ -78,6 +79,7 @@ fig_map.update_layout(
 
 st.plotly_chart(fig_map, use_container_width=True)
 
+# Top destinations
 st.subheader("2. Top 10 Destination Airports from JFK")
 
 # Preprocess top destinations
@@ -100,6 +102,7 @@ ax.set_xlabel('Number of Unique Routes')
 ax.set_ylabel('Destination Airport')
 st.pyplot(fig_bar)
 
+# Domestic vs. International
 st.subheader("3. Domestic vs. International Flights from JFK")
 
 # Add the domestic filter
@@ -115,6 +118,7 @@ fig_pie, ax = plt.subplots()
 ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
 st.pyplot(fig_pie)
 
+# Top airlines
 st.subheader("4. Top Airlines Operating from JFK (by Route Count)")
 
 top_airlines = jfk_routes['Airline'].value_counts().head(10).reset_index()
