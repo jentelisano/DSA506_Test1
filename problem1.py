@@ -279,21 +279,21 @@ elif page == "Problem 2: University Dashboard":
     with tab3:
         st.subheader("Student Satisfaction Trends")
     
-        # Convert Year to string if necessary to avoid gaps in lines
-        df["Year"] = df["Year"].astype(str)
+        # Ensure Year is numeric for line connections
+        df["Year"] = df["Year"].astype(int)
     
-        # Plot a simple line chart with dots
         fig = px.line(
             df,
             x="Year",
             y="Student Satisfaction (%)",
             title="Student Satisfaction Trends",
-            markers=True
+            markers=True  # dots will show up
         )
     
         fig.update_layout(
             yaxis_title="Satisfaction (%)",
-            xaxis_title="Year"
+            xaxis_title="Year",
+            xaxis=dict(dtick=1)
         )
     
         st.plotly_chart(fig, use_container_width=True)
