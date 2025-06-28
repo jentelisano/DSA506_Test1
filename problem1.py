@@ -92,43 +92,57 @@ with tab1:
 
 # Top destinations
 with tab2:
-    st.subheader("Top 10 Destination Airports from JFK")
+    st.subheader("Top Destination Airports from JFK")
 
-    # Preprocess top destinations
-    top_dests = jfk_routes['Dst_IATA'].value_counts().head(10).reset_index()
+    # User selects how many destinations to display
+    top_n = st.slider("Select number of top destinations to display:", min_value=3, max_value=20, value=10)
+
+    # Filter top destinations
+    top_dests = jfk_routes['Dst_IATA'].value_counts().head(top_n).reset_index()
     top_dests.columns = ['Dst_IATA', 'Flight_Count']
-    
-    # Merge to get city/country
+
+    # Merge to get location info
     top_dests = top_dests.merge(
         airports[['IATA', 'City', 'Country']],
         left_on='Dst_IATA', right_on='IATA',
         how='left'
     )
     top_dests['Label'] = top_dests['City'] + ', ' + top_dests['Country'] + ' (' + top_dests['Dst_IATA'] + ')'
-    
-    # Seaborn plot to matplotlib
-    fig_bar, ax = plt.subplots(figsize=(10, 5))
+
+    # Chart
+    fig_bar, ax = plt.subplots(figsize=(10, 0.5 * top_n))
     sns.barplot(data=top_dests, y='Label', x='Flight_Count', palette='Blues_d', ax=ax)
-    ax.set_title('Top 10 Destination Airports from JFK (by Route Frequency)')
-    ax.set_xlabel('Number of Unique Routes')
-    ax.set_ylabel('Destination Airport')
+    ax.set_title(f"Top {top_n} Destination Airports from JFK (by Route Frequency)")
+    ax.set_xlabel('Number of Routes')
+    ax.set_ylabel('Destination')
     st.pyplot(fig_bar)
 
 # Domestic vs. International
 with tab3:
-    st.subheader("Domestic vs. International Flights from JFK")
+    st.subheader("Domestic vs. International Flights")
 
-    # Add the domestic filter
+    # Flag domestic/international
     jfk_routes['is_domestic'] = jfk_routes['Country'] == 'United States'
-    
-    # Count and plot as pie chart
-    dom_int_counts = jfk_routes['is_domestic'].value_counts().reset_index()
-    dom_int_counts.columns = ['is_domestic', 'count']
-    dom_int_counts['label'] = dom_int_counts['is_domestic'].map({True: 'Domestic', False: 'International'})
-    
-    # Pie chart
+
+    # Dropdown filter
+    flight_filter = st.radio("Select view:", options=["All", "Domestic Only", "International Only"])
+
+    # Apply filter
+    if flight_filter == "Domestic Only":
+        filtered = jfk_routes[jfk_routes['is_domestic']]
+    elif flight_filter == "International Only":
+        filtered = jfk_routes[~jfk_routes['is_domestic']]
+    else:
+        filtered = jfk_routes
+
+    # Count flight types
+    pie_data = filtered['is_domestic'].value_counts().reset_index()
+    pie_data.columns = ['is_domestic', 'count']
+    pie_data['label'] = pie_data['is_domestic'].map({True: 'Domestic', False: 'International'})
+
     fig_pie, ax = plt.subplots()
-    ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
+    ax.pie(pie_data['count'], labels=pie_data['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'salmon'])
+    ax.set_title(f"Flight Breakdown: {flight_filter}")
     st.pyplot(fig_pie)
 
 # Top airlines
