@@ -288,7 +288,6 @@ elif page == "Problem 2: University Dashboard":
             x="Year",
             y="Student Satisfaction (%)",
             title="Student Satisfaction Trends",
-            trendline="ols",
             labels={"Student Satisfaction (%)": "Satisfaction (%)"}
         )
     
