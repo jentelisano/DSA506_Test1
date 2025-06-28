@@ -7,6 +7,31 @@ import seaborn as sns
 st.title("JFK Flight Route Explorer")
 st.subheader("1. Global Map of Direct Routes from JFK")
 
+# Load data from source
+routes_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
+airports_url = "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat"
+
+routes = pd.read_csv(routes_url, header=None, names=[
+    'Airline','Airline_ID','Src_IATA','Src_Airport_ID',
+    'Dst_IATA','Dst_Airport_ID','Codeshare','Stops','Equipment'
+])
+
+airports = pd.read_csv(airports_url, header=None, names=[
+    'Airport_ID','Name','City','Country','IATA','ICAO',
+    'Latitude','Longitude','Altitude','Timezone','DST',
+    'Tz_db','Type','Source'
+])
+
+# Filter for JFK
+jfk_routes = routes[routes['Src_IATA'] == 'JFK'].copy()
+
+# Merge destination coordinates
+jfk_routes = jfk_routes.merge(
+    airports[['IATA', 'City', 'Country', 'Latitude', 'Longitude']],
+    left_on='Dst_IATA', right_on='IATA',
+    how='left'
+)
+
 # Define JFK coordinates
 jfk_lat = 40.6413
 jfk_lon = -73.7781
