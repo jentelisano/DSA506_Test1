@@ -130,9 +130,9 @@ st.markdown("""
 ## ✈️ Summary Insights
 
 - JFK offers direct flights to over 150 destinations across the globe.
-- Top destinations include **London (LHR)** and **Paris (CDG)**.
-- **~70%** of routes from JFK are international, reinforcing its role as a global gateway.
-- Airlines with the most route presence from JFK include both U.S. and foreign carriers.
+- Top destinations include **London (LHR)**,  **Paris (CDG)**, and **New Orleans (MSY)**.
+- **~65%** of routes from JFK are international, reinforcing its role as a global gateway.
+- Airlines with the most route presence from JFK include both U.S. and foreign carriers, with **Delta (DL)**, **Jet Blue (B6)**, and **American Airlines (AA)** leading.
 
 The analysis uses OpenFlights data as a proxy for real-world operations and offers valuable insights into route diversity, airport connectivity, and strategic airline presence.
 """)
