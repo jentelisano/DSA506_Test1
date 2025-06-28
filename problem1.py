@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Mapping the routes
-st.title("JFK Flight Route Explorer")
+st.title("Problem 1 - JFK Flight Route Explorer")
 st.subheader("1. Global Map of Direct Routes from JFK")
 
 # Load data
@@ -119,26 +119,29 @@ ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%
 st.pyplot(fig_pie)
 
 # Top airlines
-st.subheader("4. Top Airlines Operating from JFK (by Route Count)")
+st.subheader("Top Airlines Operating from JFK (by Route Count)")
 
-top_airlines = jfk_routes['Airline'].value_counts().head(10).reset_index()
-top_airlines.columns = ['Airline_Code', 'Route_Count']
+# Aggregate data
+airline_stats = jfk_routes.groupby('Airline').agg(
+    route_count=('Dst_IATA', 'count'),
+    unique_dests=('Dst_IATA', 'nunique')
+).reset_index()
 
-fig_airline, ax = plt.subplots(figsize=(10, 4))
-sns.barplot(data=top_airlines, x='Route_Count', y='Airline_Code', palette='Purples_d', ax=ax)
-ax.set_xlabel("Number of Routes")
-ax.set_ylabel("Airline Code")
-st.pyplot(fig_airline)
+# Plot
+fig_air, ax = plt.subplots(figsize=(8, 5))
+sns.scatterplot(data=airline_stats, x='route_count', y='unique_dests', ax=ax)
+ax.set_title("Airline Route Frequency vs. Destination Reach from JFK")
+ax.set_xlabel("Total Number of Routes from JFK")
+ax.set_ylabel("Unique Destinations Served")
+st.pyplot(fig_air)
 
 st.markdown("""
-## ✈️ Summary Insights
+**Interpretation:**  
+This scatterplot shows how airlines operating out of JFK compare in terms of route volume and destination diversity.  
+- Airlines in the top-right serve many destinations with many routes — they’re likely major carriers.
+- Airlines in the lower-left operate fewer routes to fewer destinations — smaller or specialized operators.
 
-- JFK offers direct flights to over 150 destinations across the globe.
-- Top destinations include **London (LHR)**,  **Paris (CDG)**, and **New Orleans (MSY)**.
-- **~65%** of routes from JFK are international, reinforcing its role as a global gateway.
-- Airlines with the most route presence from JFK include both U.S. and foreign carriers, with **Delta (DL)**, **Jet Blue (B6)**, and **American Airlines (AA)** leading.
-
-The analysis uses OpenFlights data as a proxy for real-world operations and offers valuable insights into route diversity, airport connectivity, and strategic airline presence.
+This offers a clearer sense of operational scale and strategic breadth per airline.
 """)
 
 
