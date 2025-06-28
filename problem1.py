@@ -113,5 +113,4 @@ dom_int_counts['label'] = dom_int_counts['is_domestic'].map({True: 'Domestic', F
 # Pie chart
 fig_pie, ax = plt.subplots()
 ax.pie(dom_int_counts['count'], labels=dom_int_counts['label'], autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
-ax.set_title('3. Domestic vs. International Flights from JFK')
 st.pyplot(fig_pie)
